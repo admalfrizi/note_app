@@ -16,13 +16,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.cobacoba.noteapp.feature_note.presentation.notes.components.NoteItem
 import com.cobacoba.noteapp.feature_note.presentation.notes.components.OrderSection
 import com.cobacoba.noteapp.feature_note.presentation.util.Screen
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -49,12 +50,11 @@ fun NotesScreen(
             }
         },
         scaffoldState = scaffoldState
-    ) {
-
+    ){paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp),
+                .padding(paddingValues).padding(28.dp),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -62,12 +62,12 @@ fun NotesScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Your Note",
+                    text = "Catatan Anda",
                     style = MaterialTheme.typography.h4
                 )
                 IconButton(
                     onClick = {
-                              viewModel.onEvent(NotesEvent.ToggleOrderSection)
+                        viewModel.onEvent(NotesEvent.ToggleOrderSection)
                     },
                 ) {
                     Icon(
@@ -108,7 +108,7 @@ fun NotesScreen(
                             },
                         onDeletedClick = {
                             viewModel.onEvent(NotesEvent.DeleteNote(note))
-                            scope.launch {
+                            scope.launch(Dispatchers.IO) {
                                 val result = scaffoldState.snackbarHostState.showSnackbar(
                                     message = "Note Deleted",
                                     actionLabel = "Undo",
@@ -123,6 +123,11 @@ fun NotesScreen(
                 }
             }
         }
-
     }
+}
+
+@Composable
+@Preview
+fun NotesScreenPreview() {
+    NotesScreen(navController = rememberNavController())
 }

@@ -59,7 +59,7 @@ class NotesViewModel @Inject constructor(private val notesUseCases : NotesUseCas
 
     private fun getNotes(noteOrder: NoteOrder) {
         getNotesJob?.cancel()
-        notesUseCases.getNotes(noteOrder).onEach {
+        notesUseCases.getNotesId(noteOrder).onEach {
             notes ->
             _state.value = state.value.copy(
                 notes = notes,
