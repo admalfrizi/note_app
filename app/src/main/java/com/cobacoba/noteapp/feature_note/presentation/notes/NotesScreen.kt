@@ -26,7 +26,6 @@ import com.cobacoba.noteapp.feature_note.presentation.util.Screen
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NotesScreen(
     navController : NavController,
@@ -54,7 +53,7 @@ fun NotesScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues).padding(28.dp),
+                .padding(28.dp),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),

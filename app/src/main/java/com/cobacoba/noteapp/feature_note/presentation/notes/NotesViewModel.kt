@@ -9,6 +9,7 @@ import com.cobacoba.noteapp.feature_note.domain.use_case.NotesUseCases
 import com.cobacoba.noteapp.feature_note.domain.util.NoteOrder
 import com.cobacoba.noteapp.feature_note.domain.util.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -37,7 +38,7 @@ class NotesViewModel @Inject constructor(private val notesUseCases : NotesUseCas
                 getNotes(event.noteOrder)
             }
             is NotesEvent.DeleteNote -> {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.IO) {
                     notesUseCases.deleteNotes(event.note)
                     recentlyDeleteNotes = event.note
                 }
